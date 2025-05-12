@@ -1,5 +1,18 @@
 // next.config.ts
 import type { NextConfig } from "next";
+import withPWAImport from "next-pwa";
+
+// Configure next-pwa
+const withPWA = withPWAImport({
+  dest: "public", // Destination directory for the PWA files
+  register: true, // Register the PWA service worker
+  skipWaiting: true, // Instructs the waiting service worker to activate immediately
+  disable: process.env.NODE_ENV === "development", // Disable PWA in development mode
+  // cacheOnFrontEndNav: true, // Optional: Caches pages navigated to on the client side
+  // fallbacks: { // Optional: Specify fallbacks for offline
+  //   document: '/offline', // Example: you would need to create an /offline page
+  // },
+});
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -26,4 +39,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWA(nextConfig); // Wrap your nextConfig with withPWA
